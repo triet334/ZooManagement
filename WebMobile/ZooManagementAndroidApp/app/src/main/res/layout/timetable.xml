@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tvCode"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+
+    <!--        android:layout_margin="10dp"-->
+    <!--        android:textColor="@color/purple_200"-->
+    <!--        android:textStyle="bold"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:hint="EmployeeCode" />-->
+    <TextView
+        android:id="@+id/tvWorkDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:hint="WorkDate"
+        android:layout_margin="10dp"
+        android:textColor="@color/purple_200"
+        android:textColorHint="#78909C"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvShift"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+
+        android:hint="Shift"
+        android:layout_margin="10dp"
+        android:textColor="@color/purple_200"
+        android:textColorHint="#78909C"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+
+
+    <Button
+        android:id="@+id/btnshowReport"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Report" />
+
+
+</LinearLayout>

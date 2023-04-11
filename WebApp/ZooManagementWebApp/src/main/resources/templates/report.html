@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/employee.html}">
+    <head>
+        <title>Employee</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+                <script type="text/javascript">
+                    $(document).ready(function () {
+
+                        //lấy sự kiện trên combobox
+                        $('#comboboxCage').on('click', function () {
+                            var categoryId = $(this).val();
+                            $.ajax({
+                                type: 'GET',
+                                //đường dững trong controller                           
+                                url: '/job/loadAnimalsByCage/' + categoryId,
+                                success: function (result) {
+                                    var result = JSON.parse(result);
+                                    var s = '';
+                                    for (var i = 0; i < result.length; i++) {
+                                        //dùng gán dữ liệu cho thẻ option
+                                        s += '<option value="' + result[i].animalCode + '">' + result[i].animalName + '</option>';
+                                    }
+                                    //đẩy toàn bộ dữ liệu vô combobox
+                                    $('#comboboxAnimal').html(s);
+                                }
+                            });
+                        });
+
+                    });
+                </script>
+                
+        
+    </head>
+    <body>
+        
+        <div layout:fragment="content">
+            <div class="col-sm-7">
+    
+      <div class="w3-row-padding">
+        <div class="w3-col m12">
+          <div class="w3-card w3-round w3-white">
+            <div class="w3-container w3-padding">
+                <p style="text-align: center; font-size: 40px; color: #FE980F;" th:text="${mes}">
+                                        <!-- báo lỗi -->
+                                    </p>
+                <h3 class="panel-heading" style="color: green;font-weight: bold">weekly work schedule</h3>
+<!--              <p contenteditable="true" class="w3-border w3-padding">Status: Feeling Blue</p>
+              <button type="button" class="w3-button w3-theme"><i class="fa fa-pencil"></i>  Post</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+              
+        <div class="w3-container w3-card w3-white w3-round w3-margin" th:each="s: ${list}">
+            <br>
+                <span class="w3-right" style="font-size: 130%; color:green;font-weight: bold" th:text="${s.getWorkDate()}"></span>
+            <span th:text="${s.getShiftCode().getShiftTime()}" style="font-size: 130%;color:green;font-weight: bold"></span><br>
+                <hr>
+            <div th:each="c: ${cages}">
+                <div th:each="r:${rpd}">
+                    <div th:if="${c.getCageCode().getCageCode()}==${r.getCageCode().getCageCode()} AND ${s.getWorkDate()}==${r.getDate()}">
+                        
+                            <form th:method="Post" th:action="@{/report/update}" >
+                                <div class="form-group">
+                                    
+                                    <input type="hidden" th:value="${r.getReportId()}" name="id">                                                                 
+                                </div>
+                                                              
+                                
+                                <div class="form-group">
+                                    <label >Cage :</label>
+                                    <span style="color: #761c19;font-weight: bolder" th:text="${r.getCageCode().getCageName()}"></span> 
+                                   
+                                            <br>
+                                    
+                                    
+                                </div>                                           
+                                <br>
+                                <span th:if="${r.getCheckCage()}">
+                                    <span class="form-group" >
+                                        <label>Check Cage: </label>                                  
+                                        <input type="checkbox" checked name="checkc" value="True" disabled>   
+                                        <input type="hidden" name="checkc" value="True"> 
+                                    </span>&nbsp;&nbsp;&nbsp;
+                                </span> 
+                                
+                                <span th:if="${!r.getCheckCage()}">
+                                    <span class="form-group" >
+                                        <label>Check Cage: </label>                                  
+                                        <input type="checkbox" name="checkc" value="True">                                                                                                                                                
+                                    </span>&nbsp;&nbsp;&nbsp;
+                                </span>
+                                
+                                <span th:if="${r.getFeeding()}">
+                                    <span class="form-group" >
+                                        <label>Feeding: </label>                                  
+                                        <input type="checkbox" checked name="fc" value="True" disabled>  
+                                            <input type="hidden" name="fc" value="True">
+                                    </span>&nbsp;&nbsp;&nbsp;
+                                </span>
+                                <span th:if="${!r.getFeeding()}">
+                                    <span class="form-group" >
+                                        <label>Feeding: </label>                                  
+                                        <input type="checkbox" name="fc" value="True">                                                                                                                                                
+                                    </span>&nbsp;&nbsp;&nbsp;
+                                </span>
+                                
+                                <span th:if="${r.getClean()}">
+                                    <span class="form-group" >
+                                        <label>Clean Cage: </label>                                  
+                                        <input type="checkbox" checked name="cleanc" value="True" disabled>   
+                                            <input type="hidden" name="cleanc" value="True">
+                                    </span>&nbsp;&nbsp;&nbsp;
+                                </span>
+                                <span th:if="${!r.getClean()}">
+                                    <span class="form-group" >
+                                        <label>Clean Cage: </label>                                  
+                                        <input type="checkbox" name="cleanc" value="True">                                                                                                                                                
+                                    </span>&nbsp;&nbsp;&nbsp;
+                                </span>
+                                
+                             
+                                
+                                    <span th:if="${r.getCheckCage()} AND ${r.getFeeding()} AND ${r.getClean()}" >
+                                        &nbsp;&nbsp;&nbsp;<input th:type="submit" value="Send"  class="btn btn-success w3-right" disabled/> &nbsp;
+                                    </span>
+                                    <span th:unless="${r.getCheckCage()} AND ${r.getFeeding()} AND ${r.getClean()}" >
+                                        &nbsp;&nbsp;&nbsp;<input th:type="submit" value="Send"  class="btn btn-success w3-right"/> &nbsp;
+                                    </span>
+                                   
+                              </form>
+                        <br><br>
+                    </div>
+                </div>
+                <hr>            
+            
+       
+        </div>
+        
+      </div>
+      
+       
+      
+    <!-- End Middle Column -->
+    </div>
+    
+    <!-- Right Column -->
+    <div class="col-sm-5">
+      <div class="w3-card w3-round w3-white w3-center">
+        <div class="w3-container">
+          <p class="panel-heading">Urgent Report</p>
+          <form th:method="Post" th:action="@{/health/create}" th:object="${health}">
+              
+              
+              <div class="form-group">
+                  <label>Cage</label>
+                  <select th:id="comboboxCage" class="form-control">   
+                      <option> </option>
+                  <option th:each="c: ${cages}" th:value="${c.getCageCode().getCageCode()}" th:text="${c.getCageCode().getCageName()}"></option>
+                  </select>  
+              </div>                                           
+
+              <div class="form-group">
+                  <label>Animal</label>
+                  <select th:id="comboboxAnimal" class="form-control" th:field="*{animalCode}">
+                      
+                  </select>                                        
+              </div>
+              
+              <div class="form-group">
+                <label>Description</label>
+                <textArea th:field="*{employeeDescription}"  class="form-control" rows="4" cols="50"></textArea>
+                                                  
+                </div>
+              
+              <input class="btn btn-success" th:type="submit" value="Send" /> &nbsp;
+              <input class="btn btn-primary" type="reset" value="Reset" />
+               <br><br>
+          </form>
+          
+          
+        </div>
+      </div>
+      <br>
+      
+          <div th:each="h:${listhealth}">
+              <div class="w3-card w3-round w3-white w3-center">
+               <div class="w3-container">                                                                                       
+                <br>
+              <div class="form-group">
+                  <label>Animal</label>
+                  <p th:text="${h.getAnimalCode().getAnimalName()}"></p>                                        
+              </div>
+              
+               <div class="form-group">
+                <label>Description</label>
+                <p th:text="${h.getEmployeeDescription()}"></p>   
+                                                  
+                </div>     
+                    
+              <div class="form-group">
+                <label>Doctor Note</label>
+                <p th:text="${h.getDoctorNote()}"></p>   
+                                                  
+                </div>
+              
+              <div class="form-group">
+                <label>Doctor</label>
+                <span th:if="${h.getDoctorCode()}!=null">
+                <p th:text="${h.getDoctorCode().getEmployeeName()}"></p>   
+                    </span>   
+                
+                <span th:unless="${h.getDoctorCode()}!=null">
+                <p>Waiting</p>   
+                    </span> 
+                </div>
+               <br>
+          
+          
+          
+             </div>
+            </div>
+              <br>
+          </div>
+    <!-- End Right Column -->
+    </div>
+        </div>
+        
+    </body>
+</html>

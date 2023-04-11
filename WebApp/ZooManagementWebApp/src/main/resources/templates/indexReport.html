@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin.html}">
+    <head>
+        <title>Index Report</title>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css}"/>
+                <link rel="stylesheet" th:href="@{https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css}"/>
+                <script th:src="@{https://code.jquery.com/jquery-3.5.1.js}"></script>
+                <script th:src="@{https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js}"></script> 
+                <script th:src="@{https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js}"></script>
+
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#indexTable').DataTable();
+                    });
+                </script>   
+
+                <!--<script type="text/javascript">
+                    $(document).ready(function () {
+
+                        //lấy sự kiện trên combobox
+                        $('#cbx').on('click', function () {
+                            var categoryId = $(this).val();
+                            $.ajax({
+                                type: 'GET',
+                                //đường dững trong controller                           
+                                url: '/report/loadfindByCage/' + categoryId,
+                                success: function (result) {
+                                    var result = result;
+                                    var s = '';
+                                    for (var i = 0; i < result.length; i++) {
+                                        //dùng gán dữ liệu cho thẻ option
+
+                                        s += '<tr>' +
+                                                '<td>' + result[i].checkCage + '</td>' +
+                                                '<td>' + result[i].feeding + '</td>' +
+                                                '<td>' + result[i].clean + '</td>' +
+                                                '<td>' + result[i].date + '</td>' +
+                                                '<td><a class="btn btn-info" href="/report/edit/' + result[i].reportId + '">Edit</a> &nbsp; <a class="btn btn-success" href="/report/detail/' + result[i].reportId + '">Detail</a> </td>' +
+                                                '</tr>';
+                                    }
+                                    //đẩy toàn bộ dữ liệu vô combobox
+                                    $('#load').html(s);
+                                }
+                            });
+                        });
+
+
+                    });
+                </script>-->
+
+
+                </head>
+
+
+                <body>
+                    <div layout:fragment="content">
+
+                        <div>
+                            <header class="panel-heading" style="color: green;font-weight: bold; font-size: 30px">
+                                Daily Cage Report List
+                            </header>
+                            <div class="panel col-sm-12" style="margin-bottom: 60px">
+                                <div class="panel-heading" style="height: 30px"></div>
+                                <div  class="panel-body">
+                                    <form th:method="Get" th:action="@{/report/search}" >
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-4 form-group">
+                                                <label >Cage</label>
+
+                                                <select   style="min-height: 40px; " name="cag">     
+                                                    <option></option>
+                                                    <option th:each="c: ${cage}"  th:value="${c.getCageCode()}" th:text="${c.getCageName()}"></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-4 form-group">
+                                                <label>Date</label>
+
+                                                <input type="date" style="min-height: 40px; "  name="date"  />                                                                                                                
+                                            </div>
+                                            <div class="col-sm-4 form-group" style="margin-top: 10px">
+                                                <label>Unfinished: </label>&nbsp;                   
+                                                <input type="checkbox" name="combo" value="True">                                                                                                                
+                                            </div>
+                                        </div>
+
+                                        <br><br>
+                                                <div class="col-sm-4 form-group" style="margin-left: 60px">
+                                                    <input th:type="submit" value="Search" class="btn btn-success"/> &nbsp;                                                                                                                
+                                                </div>
+
+                                                </form>
+                                                </div>
+                                                </div>
+
+
+
+                                                <table th:id="indexTable" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr> 
+                                                            <th>Cage</th>
+                                                            <th>Check Cage</th>
+                                                            <th>Feeding</th>
+                                                            <th>Clean Cage</th>
+                                                            <th>Date</th>                       
+                                                            <th>Action</th>
+                                                        </tr>    
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr th:each="s :${list}">
+                                                            <td th:text="${s.getCageCode().getCageName()}"></td>
+                                                            <td th:text="${s.getCheckCage()}"></td>
+                                                            <td th:text="${s.getFeeding()}"></td>
+                                                            <td th:text="${s.getClean()}"></td>
+                                                            <td th:text="${s.getDate()}"></td>
+                                                            <td><a class="btn btn-info" th:href="@{/report/edit/{id}(id=${s.getReportId()})}">Update</a> &nbsp; <a class="btn btn-success" th:href="@{/report/detail/{id}(id=${s.getReportId()})}">Detail</a></td>
+                                                        </tr>
+                                                    </tbody>   
+
+                                                </table>  
+                                                </div>
+
+                                                </body>
+
+
+                                                </html>

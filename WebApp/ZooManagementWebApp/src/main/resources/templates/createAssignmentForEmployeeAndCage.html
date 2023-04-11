@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin.html}">
+    <head>
+        <title>Assignment Employee & Cage</title>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <script type="text/javascript" th:src="@{/js/jquery1.7.1.min.js}"></script>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+
+                        //lấy sự kiện trên combobox
+                        $('#comboboxEmployee').on('click', function () {
+                            var categoryId = $(this).val();
+                            $.ajax({
+                                type: 'GET',
+                                //đường dững trong controller                           
+                                url: '/employee/loadSpesForEmployee/' + categoryId,
+                                success: function (result) {
+                                    var result = JSON.parse(result);
+                                    var s = '';
+                                    for (var i = 0; i < result.length; i++) {
+                                        //dùng gán dữ liệu cho thẻ option
+                                        s += '<option value="' + result[i].familyCode + '">' + result[i].familyName + '</option>';
+                                    }
+                                    //đẩy toàn bộ dữ liệu vô combobox
+                                    $('#comboboxAnimalfamily').html(s);
+                                }
+                            });
+                        });
+
+                        //lấy sự kiện trên combobox
+                        $('#comboboxAnimalfamily').on('click', function () {
+                            var categoryId = $(this).val();
+                            $.ajax({
+                                type: 'GET',
+                                //đường dững trong controller                           
+                                url: '/animal/loadCagesByAnimalFamily/' + categoryId,
+                                success: function (result) {
+                                    var result = JSON.parse(result);
+                                    var s = '';
+                                    for (var i = 0; i < result.length; i++) {
+                                        //dùng gán dữ liệu cho thẻ option
+                                        s += '<option value="' + result[i].cageCode + '">' + result[i].cageName + '</option>';
+                                    }
+                                    //đẩy toàn bộ dữ liệu vô combobox
+                                    $('#comboboxCage').html(s);
+                                }
+                            });
+                        });
+
+                    });
+                </script>
+
+                </head>
+                <body>
+                    <div class="row" layout:fragment="content">      
+                        <div class="col-lg-12">
+                            <section class="panel">
+                                <span style="text-align: center; color: red;">
+                                    <!--Thông báo thêm thành công-->
+                                </span>
+                                <header class="panel-heading" style="color: green;font-weight: bold; font-size: 30px">
+                                    Assign Cage For Employee
+                                </header>
+                                <div class="panel-body">
+                                    <div class="position-center">
+                                        <form th:action="@{/assignmentCage/createAssignment}" th:object="${newAssignment}" method="Post">
+
+                                            <h3 th:text="${msg}" style="color: red;"></h3>
+                                            
+                                            <div class="form-group">
+                                                <label>Employee</label> <span style="color: red;">*</span>
+                                                <select th:id="comboboxEmployee" class="form-control" th:field="*{employeeCode}">               
+                                                    <option th:each="c: ${elist}"
+                                                            th:value="${c.getEmployeeCode()}"
+                                                            th:text="${c.getEmployeeName()}">                             
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Specialize</label> <span style="color: red;">*</span>
+                                                <select th:id="comboboxAnimalfamily" class="form-control">                            
+                                                </select>                                  
+                                            </div>                                           
+
+                                            <div class="form-group">
+                                                <label>Cage</label> <span style="color: red;">*</span>
+                                                <select th:id="comboboxCage" class="form-control" th:field="*{cageCode}">                               
+                                                </select>                                      
+                                            </div>
+
+                                            <div class="form-group" style="text-align: center;">
+                                                <input  class="btn btn-success" th:type="submit" value="Create" /> &nbsp;
+                                                <input class="btn btn-warning" th:type="reset" value="Reset" /> &nbsp;
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>                  
+                    </div>                
+                </body>
+                </html>

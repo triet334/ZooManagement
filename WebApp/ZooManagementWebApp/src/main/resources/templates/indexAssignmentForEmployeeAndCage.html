@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin.html}">
+    <head>
+        <title>Assignment Index</title>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css}"/>
+                <link rel="stylesheet" th:href="@{https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css}"/>
+                <script th:src="@{https://code.jquery.com/jquery-3.5.1.js}"></script>
+                <script th:src="@{https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js}"></script> 
+                <script th:src="@{https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js}"></script>
+
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#indexTable').DataTable();
+                    });
+                </script>   
+                </head>
+                <body>
+                    <div layout:fragment="content">
+<!--                        <h5>
+                            <a th:href="@{/assignmentCage/createAssignment}">Create</a>
+                        </h5>-->
+                        <header class="panel-heading" style="color: green;font-weight: bold; font-size: 30px">
+                            Assignment Cage Sheet
+                        </header>
+                        <table th:id="indexTable" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <!--                <th>Assignment Code</th>-->
+                                    <th>Cage Name</th>
+                                    <th>Employee Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr th:each="a: ${list}">
+                                    <!--                <td th:text="${a.getAssignmentCode()}"></td>-->
+                                    <td th:text="${a.getCageCode().getCageName()}"></td>
+                                    <td th:text="${a.getEmployeeCode().getEmployeeName()}"></td>
+
+                                    <td>
+                                        <div class="btn-group btn-group-md">
+                                            <a class="btn btn-info" style="margin: 5px" th:href="@{/assignmentCage/updateAssignment/{assignmentCode}(assignmentCode=${a.getAssignmentCode()})}">Update</a>   
+                                            <a class="btn btn-danger" style="margin: 5px" th:href="@{/assignmentCage/deleteAssignment/{assignmentCode}(assignmentCode=${a.getAssignmentCode()})}">Delete</a>
+                                        </div>      
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>     
+                </body>
+                </html>

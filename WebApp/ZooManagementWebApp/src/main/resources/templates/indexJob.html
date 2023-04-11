@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin.html}">
+    <head>
+        <title>Index Work</title>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css}"/>
+                <link rel="stylesheet" th:href="@{https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css}"/>
+                <script th:src="@{https://code.jquery.com/jquery-3.5.1.js}"></script>
+                <script th:src="@{https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js}"></script> 
+                <script th:src="@{https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js}"></script>
+
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#indexTable').DataTable();
+                    });
+                </script>   
+                <!--                <script type="text/javascript">
+                                    $(document).ready(function () {
+                
+                                        //lấy sự kiện trên combobox
+                                        $('#cbx').on('click', function () {
+                                            var categoryId = $(this).val();
+                                            $.ajax({
+                                                type: 'GET',
+                                                //đường dững trong controller                           
+                                                url: '/job/loadfindByEmployee/' + categoryId,
+                                                success: function (result) {
+                                                    var result = result;
+                                                    var s = '';
+                                                    for (var i = 0; i < result.length; i++) {
+                                                        //dùng gán dữ liệu cho thẻ option
+                
+                                                        s += '<tr>' +
+                                                                '<td>' + result[i].employeeCode.employeeName + '</td>' +
+                                                                '<td>' + result[i].shiftCode.shiftTime + '</td>' +
+                                                                '<td>' + result[i].workDate + '</td>' +
+                                                                '<td><a class="btn btn-info" href="/job/editJob/' + result[i].feedTableId + '">Update</a> &nbsp; <a class="btn btn-danger" href="/job/deleteJob/' + result[i].feedTableId + '">Delete</a> </td>' +
+                                                                '</tr>';
+                                                    }
+                                                    //đẩy toàn bộ dữ liệu vô combobox
+                                                    $('#load').html(s);
+                                                }
+                                            });
+                                        });
+                                    });
+                                </script>-->
+
+                </head>
+                <body>
+                    <div layout:fragment="content">
+                        <!--            <h2>
+                                                <a th:href="@{/job/createJob}">Add new Job</a>
+                                            </h2>-->
+                        <header class="panel-heading" style="color: green;font-weight: bold; font-size: 30px">
+                            Work Assignment List
+                        </header>
+                        <div>
+                            <div class="panel col-sm-12" style="margin-bottom: 60px">
+                                <div class="panel-heading" style="height: 30px"></div>
+                                <div  class="panel-body">
+                                    <form th:method="Get" th:action="@{/job/search}" >
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-4 form-group">
+                                                <label >Employee</label>
+                                                <select   style="min-height: 40px; " name="cag">     
+                                                    <option></option>
+                                                    <option th:each="c: ${employees}"  th:value="${c.getEmployeeCode()}" th:text="${c.getEmployeeName()}"></option>
+                                                </select>
+                                                <!--                                <select  class="form-control input-sm m-bot15" id="cbx" style="min-height: 40px;width: 30% ">                                                            
+                                                                                    <option th:each="c: ${employees}" th:value="${c.getEmployeeCode()}" th:text="${c.getEmployeeName()}"></option>
+                                                                                </select>-->
+                                            </div>
+                                           <div class="col-sm-4 form-group">
+                                                <label>Shift</label>&nbsp;              
+                                                <select   style="min-height: 40px; "name="combo">     
+                                                    <option value="0"></option>
+                                                    <option th:each="c: ${shiftList}"  th:value="${c.getShiftCode()}" th:text="${c.getShiftTime()}"></option>
+                                                </select>                                                                                                             
+                                            </div>
+                                        <div class="col-sm-4 form-group">
+                                                <label>Date</label>
+                                                <input type="date" style="min-height: 40px; "  name="date"  />                                                                                                                
+                                            </div>
+                                        
+                                        <br><br>
+                                                <div class="col-sm-4 form-group" style="margin-left: 60px">
+                                                    <input th:type="submit" value="Search" class="btn btn-success"/> &nbsp;                                                                                                                
+                                                </div>
+                                   </form>
+                                    </div>
+                                   </div>
+                                                <table th:id="indexTable" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <!--<th>Code</th>-->
+                                                            <th>Name</th>
+                                                            <th>Shift</th>                                
+                                                            <th>Time to Do</th>                               
+                                                            <th>Action</th>                         
+                                                        </tr>         
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr th:each="s: ${jobList}" >        
+<!--                                                            <td th:text="${s.getFeedTableId()}"></td>-->
+                                                            <td th:text="${s.getEmployeeCode().getEmployeeName()}"></td>
+                                                            <td th:text="${s.getShiftCode().getShiftTime()}"></td>                                
+                                                            <td th:text="${s.getWorkDate()}"></td>                                 
+                                                            <td>                        
+                                                                <div class="btn-group btn-group-md">
+                                                                    <a class="btn btn-info" style="margin: 5px" th:href="@{/job/editJob/{id}(id=${s.getFeedTableId()})}">Update</a>   
+                                                                    <a class="btn btn-danger" style="margin: 5px" th:href="@{/job/deleteJob/{id}(id=${s.getFeedTableId()})}">Delete</a>
+                                                                </div>
+                                                            </td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>   
+                                                </div>        
+                                                </body>
+                                                </html>

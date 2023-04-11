@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/employee.html}">
+    <head>
+        <title>Doctor</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+                
+        
+    </head>
+    <body>
+        
+        <div layout:fragment="content">
+            <div class="col-sm-9">
+    
+      <div class="w3-row-padding">
+        <div class="w3-col m12">
+          <div class="w3-card w3-round w3-white">
+            <div class="w3-container w3-padding">
+                <p style="text-align: center; font-size: 40px; color: #FE980F;" th:text="${mes}">
+                                        <!-- báo lỗi -->
+                                    </p>
+              <h3 class="panel-heading" style="color: green;font-weight: bold; font-size: 30px">Health Tracking</h3>
+<!--              <p contenteditable="true" class="w3-border w3-padding">Status: Feeling Blue</p>
+              <button type="button" class="w3-button w3-theme"><i class="fa fa-pencil"></i>  Post</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+     
+              
+                <div class="w3-container w3-card w3-white w3-round w3-margin" style="padding-left: 60px" th:each="s: ${list}">
+            <br>
+                <div class="form-group">
+                  <label>Animal</label>
+                  <p th:text="${s.getAnimalCode().getAnimalName()}"></p>                                        
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <p th:text="${s.getEmployeeDescription()}"></p>                                        
+                </div>
+                <div class="form-group">
+                  <label>Note</label>
+                  <p th:text="${s.getDoctorNote()}"></p>                                        
+                </div>
+                <div class="form-group">
+                  <label>Employee</label>
+                  <p th:text="${s.getEmployeeCode().getEmployeeName()}"></p>                                        
+                </div>
+                
+                
+                <a th:href="@{/health/update/{id}(id=${s.getHealthTrackingId()})}" class="w3-right btn btn-info">Update</a>
+                
+                <br><br>
+           
+            
+        
+      </div>
+      
+       
+      
+    <!-- End Middle Column -->
+    </div>
+    
+    <!-- Right Column -->
+    <div class="col-sm-3" id="form">
+      
+      <br>
+      
+      
+    <!-- End Right Column -->
+    </div>
+        </div>
+      <!--Modal-->
+     
+        
+    </body>
+</html>

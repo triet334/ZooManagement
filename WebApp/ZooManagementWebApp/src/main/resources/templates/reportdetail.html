@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin.html}">
+    <head>
+        <title>Report Detail</title>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css}"/>
+                <link rel="stylesheet" th:href="@{https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css}"/>
+                <script th:src="@{https://code.jquery.com/jquery-3.5.1.js}"></script>
+                <script th:src="@{https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js}"></script> 
+                <script th:src="@{https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js}"></script>
+
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#indexTable').DataTable();
+                    });
+                </script>   
+                </head>
+                <body>
+                    <div layout:fragment="content">
+                        <header class="panel-heading" style="color: green;font-weight: bold; font-size: 30px">
+                            Report Detail
+                        </header>
+                        <table th:id="indexTable" class="table table-striped table-bordered"ư>
+                            <thead>
+                                <tr>               
+                                    <th>Check Cage</th>
+                                    <th>Feeding</th>
+                                    <th>Clean Cage</th>
+                                    <th>Time</th>                       
+                                    <th>Employee</th>
+                                </tr>    
+                            </thead>
+                            <tbody>
+                                <tr th:each="s: ${rpdetail}" >        
+
+                                    <td>
+                                        <div th:if ="${s.getCheckCage()}">Complete</div>
+                                        <div th:unless ="${s.getCheckCage()}">Incomplete</div>
+                                    </td>
+                                    <td>
+                                        <div th:if ="${s.getFeeding()}">Complete</div>
+                                        <div th:unless ="${s.getFeeding()}">Incomplete</div>
+                                    </td>
+                                    <td>
+                                        <div th:if ="${s.getClean()}">Complete</div>
+                                        <div th:unless ="${s.getClean()}">Incomplete</div>
+                                    </td> 
+                                    <td th:text="${s.getTime()}"></td> 
+                                    <td th:text="${s.getEmployeeCode()}"></td> 
+
+                                </tr>
+                            </tbody>   
+
+                        </table>  
+                    </div>
+
+                </body>
+
+
+                </html>

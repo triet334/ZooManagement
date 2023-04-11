@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HealthTrackingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/spCage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="10dp"
+            android:minHeight="50dp"
+            />
+
+        <Spinner
+            android:id="@+id/spAnimal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="10dp"
+            android:minHeight="50dp"
+            />
+
+<!--        <RadioGroup-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" >-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/rdHealth"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:text="Sick" />-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/rdHealth2"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:text="Injury" />-->
+<!--        </RadioGroup>-->
+
+        <EditText
+            android:id="@+id/txtEmployeeDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="10dp"
+            android:hint="Employee Description"
+            android:inputType="text"
+            android:minHeight="80dp" />
+
+        <Button
+            android:id="@+id/btnReportHealthTracking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Send Report" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

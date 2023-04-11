@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin.html}">
+    <head>
+        <title>Create new Animal</title>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <script type="text/javascript" th:src="@{/js/jquery1.7.1.min.js}"></script>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+
+                        //lấy sự kiện trên combobox
+                        $('#comboboxAnimalClass').on('click', function () {
+                            var categoryId = $(this).val();
+                            $.ajax({
+                                type: 'GET',
+                                //đường dững trong controller                           
+                                url: '/animal/loadAnimalFamilyByClass/' + categoryId,
+                                success: function (result) {
+                                    var result = JSON.parse(result);
+                                    var s = '';
+                                    for (var i = 0; i < result.length; i++) {
+                                        //dùng gán dữ liệu cho thẻ option
+                                        s += '<option value="' + result[i].familyCode + '">' + result[i].familyName + '</option>';
+                                    }
+                                    //đẩy toàn bộ dữ liệu vô combobox
+                                    $('#comboboxAnimalFamily').html(s);
+                                }
+                            });
+                        });
+
+                        //lấy sự kiện trên combobox
+                        $('#comboboxAnimalFamily').on('click', function () {
+                            var categoryId = $(this).val();
+                            $.ajax({
+                                type: 'GET',
+                                //đường dững trong controller                           
+                                url: '/animal/loadCagesByAnimalFamily/' + categoryId,
+                                success: function (result) {
+                                    var result = JSON.parse(result);
+                                    var s = '';
+                                    for (var i = 0; i < result.length; i++) {
+                                        //dùng gán dữ liệu cho thẻ option
+                                        s += '<option value="' + result[i].cageCode + '">' + result[i].cageName + '</option>';
+                                    }
+                                    //đẩy toàn bộ dữ liệu vô combobox
+                                    $('#comboboxCage').html(s);
+                                }
+                            });
+                        });
+
+                    });
+                </script>
+                
+                <script>
+
+                    //javascript để check cho radio
+                    document.getElementById("genderOption1").setAttribute("checked", "checked");
+
+                    //để xem hình trc khi lưu xuống database
+                    imgInp.onchange = evt => {
+                        const [file] = imgInp.files;
+                        if (file) {
+                            blah.src = URL.createObjectURL(file);
+                        }
+                    };
+                </script>
+                </head>
+                <body>        
+                    <div class="row" layout:fragment="content">      
+                        <div class="col-lg-12">
+                            <section class="panel">
+                                <span style="text-align: center; color: red;">
+                                    <!--Thông báo thêm thành công-->
+                                </span>
+                                <header class="panel-heading" style="color: green;font-weight: bold; font-size: 30px">
+                                    Create new Animal
+                                </header>
+                                <div class="panel-body">
+                                    <div class="position-center">
+                                        <form th:method="Post" th:action="@{/animal/createAnimal}" th:object="${newAnimal}" enctype="multipart/form-data">
+                                            <div th:text="${msg}" style="color: red;"></div>
+                                            <div class="form-group">
+                                                <label>Animal Code</label> <span style="color: red;">*</span>
+                                                <input type="text" class="form-control" th:field="*{animalCode}" placeholder="Enter code...." />                              
+                                            </div>
+                                            <div style="color: red" th:if="${#fields.hasErrors('animalCode')}" th:errors="*{animalCode}"></div>
+                                            <br/>
+
+                                            <div class="form-group">
+                                                <label>Animal Name</label> <span style="color: red;">*</span>
+                                                <input type="text" class="form-control" th:field="*{animalName}" placeholder="Enter name...." />                                
+                                            </div>
+                                            <div style="color: red" th:if="${#fields.hasErrors('animalName')}" th:errors="*{animalName}"></div>
+                                            <br/>
+
+                                            <div class="form-group">
+                                                <label>Year of Birth</label> <span style="color: red;">*</span>
+                                                <input type="date" class="form-control" th:field="*{birthday}" placeholder="Enter year...." />                             
+                                            </div>
+                                            <div style="color: red" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></div>
+                                            <br/>
+
+                                            <div class="form-group">
+                                                <label>Animal Class</label> <span style="color: red;">*</span>
+                                                <select th:id="comboboxAnimalClass" class="form-control" th:field="*{classCode}">                            
+                                                    <option th:each="c: ${classList}" th:value="${c.getClassCode()}" th:text="${c.getClassName()}"></option>
+                                                </select>        
+                                            </div>
+                                            <div style="color: red" th:if="${#fields.hasErrors('classCode')}" th:errors="*{classCode}"></div>
+                                            <br/>
+
+                                            <div class="form-group">
+                                                <label>Kind of Animal</label> <span style="color: red;">*</span>
+                                                <select th:id="comboboxAnimalFamily" class="form-control" th:field="*{familyCode}">                                           
+                                                </select>                              
+                                            </div>                                           
+                                            <div style="color: red" th:if="${#fields.hasErrors('familyCode')}" th:errors="*{familyCode}"></div>
+                                            <br/>
+
+                                            <div class="form-group">
+                                                <label>Cage Name</label> <span style="color: red;">*</span>
+                                                <select th:id="comboboxCage" class="form-control" th:field="*{cageCode}">                                       
+                                                </select>                                        
+                                            </div>
+                                            <div style="color: red" th:if="${#fields.hasErrors('cageCode')}" th:errors="*{cageCode}"></div>
+                                            <br/>
+
+                                            <div class="form-group">
+                                                <label>Gender</label> <span style="color: red;">*</span>
+                                                <br/><br/>
+                                                Male    &nbsp;&nbsp;<input type="radio" id="genderOption1" th:field="*{gender}" th:value="true" />&nbsp;&nbsp;
+                                                Female  &nbsp;&nbsp;<input type="radio" id="genderOption2" th:field="*{gender}" th:value="false" />                              
+                                            </div>
+                                            <br/>
+
+                                            <div class="form-group">
+                                                <label>Received Date</label> <span style="color: red;">*</span>
+                                                <input type="datetime-local" th:field="*{dateAdded}" class="form-control" placeholder="Enter date added...." />                                 
+                                            </div>
+                                            <div style="color: red" th:if="${#fields.hasErrors('dateAdded')}" th:errors="*{dateAdded}"></div>
+                                            <br/>
+
+                                            <div class="form-group">
+                                                <label>Nationality</label> <span style="color: red;">*</span>
+                                                <input type="text" th:field="*{originCountry}" class="form-control" placeholder="Enter origin...." />
+                                            </div>
+                                            <div style="color: red" th:if="${#fields.hasErrors('originCountry')}" th:errors="*{originCountry}"></div>
+                                            <br/>
+
+                                            <div class="form-group">
+                                                <label >Health Status</label> <span style="color: red;">*</span>
+                                                <input type="text" th:field="*{healthStatus}" class="form-control" placeholder="Enter health status...." />
+                                            </div>
+                                            <div style="color: red" th:if="${#fields.hasErrors('healthStatus')}" th:errors="*{healthStatus}"></div>
+                                            <br/>
+
+                                            <div class="form-group">
+                                                <label>Upload Image</label> <span style="color: red;">*</span>
+                                                <input type="file" th:field="*{photo}" class="form-control" id="imgInp" /></br></br> 
+                                                <img id="blah" src="#" alt="your image" width="300" /></br></br> 
+                                            </div>
+
+                                            <div class="form-group" style="text-align: center;">
+                                                <input  class="btn btn-success" th:type="submit" value="Create" /> &nbsp;
+                                                <input class="btn btn-warning" th:type="reset" value="Reset" /> &nbsp;
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>                  
+                    </div>
+
+                </body>
+                
+                </body>
+                </html>

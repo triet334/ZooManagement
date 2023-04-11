@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin.html}">
+    <head>
+        <title>Animal Index</title>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+                <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css}"/>
+                <link rel="stylesheet" th:href="@{https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css}"/>
+                <script th:src="@{https://code.jquery.com/jquery-3.5.1.js}"></script>
+                <script th:src="@{https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js}"></script> 
+                <script th:src="@{https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js}"></script>
+
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#indexTable').DataTable();
+                    });
+                </script>                         
+                </head>
+                <body>        
+                    <div layout:fragment="content">
+                        <!--                        <h2>
+                                                    <a th:href="@{/animal/createAnimal}">Add new Animal</a>
+                                                </h2>-->
+                        <header class="panel-heading" style="color: green;font-weight: bold; font-size: 30px">
+                            Animal List
+                        </header>
+
+                        <table th:id="indexTable" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>YoB</th> 
+                                    <th>Date Added</th>
+                                    <th>Nationality</th>
+                                    <th>Gender</th>
+                                    <th>Health Status</th>
+                                    <th>Class</th>
+                                    <th>Race</th>
+                                    <th>Cage</th>
+                                    <th>Photo</th>   
+                                    <th>Action</th>                         
+                                </tr>         
+                            </thead>
+                            <tbody>
+                                <tr th:each="s: ${animalList}" >        
+                                    <td th:text="${s.getAnimalCode()}"></td>
+                                    <td th:text="${s.getAnimalName()}"></td>
+                                    <td th:text="${s.getBirthday()}"></td>  
+                                    <td th:text="${s.getDateAdded()}"></td>  
+                                    <td th:text="${s.getOriginCountry()}"></td>                                    
+                                    <td th:if="${s.getGender() == true}">Male</td>
+                                    <td th:if="${s.getGender() == false}">Female</td>                   
+                                    <td th:text="${s.getHealthStatus()}"></td>  
+                                    <td th:text="${s.getClassCode().getClassName()}"></td>  
+                                    <td th:text="${s.getFamilyCode().getFamilyName()}"></td>  
+                                    <td th:text="${s.getCageCode().getCageName()}"></td>  
+                                    <td><img th:src="@{'data:image/png;base64,'+ ${s.getPhoto()}}" style="width: 30px;height: 30px" alt="failed to load image !!!" /></td>      
+                                    <td>   
+                                        <div class="btn-group btn-group-md">
+                                            <a class="btn btn-info" style="margin: 5px" th:href="@{/animal/updateAnimal/{animalCode}(animalCode=${s.getAnimalCode()})}">Update</a>   
+                                            <a class="btn btn-danger" style="margin: 5px" th:href="@{/animal/deleteAnimal/{animalCode}(animalCode=${s.getAnimalCode()})}">Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>   
+                    </div>                    
+                </body>
+                </html>

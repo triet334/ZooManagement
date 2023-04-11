@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/employee.html}">
+    <head>
+        <title>Report</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+                
+        
+    </head>
+    <body>
+        
+        <div layout:fragment="content">
+            <div class="col-sm-9">
+                <div class="w3-card w3-round w3-white w3-center">
+            <div class="w3-container">
+          
+          <header class="panel-heading" style="color: green;font-weight: bold; font-size: 30px">
+                    Update Health Tracking
+                </header>
+      <form th:method="Post" th:action="@{/health/update}" th:object="${ht}">
+              <div class="form-group">
+                  
+                  <input type="hidden" th:field="*{healthTrackingId}" class="form-control">
+                   
+              </div> 
+                                                       
+
+              <div class="form-group">
+                  <label>Animal</label>
+                  <input readonly="true" th:field="*{animalCode.animalCode}"  class="form-control">
+              </div> 
+          
+               <div class="form-group">
+                  <label>Employee</label>
+                  <input type="text" readonly="true" th:field="*{employeeCode.employeeCode}" class="form-control">
+                   
+              </div> 
+              
+              <div class="form-group">
+                <label>Description</label>
+                <textArea th:field="*{employeeDescription}"  class="form-control" rows="4" cols="50" readonly="true"></textArea>
+                                                  
+                </div>
+          
+            <div class="form-group">
+                <label>Doctor Note</label>
+                <textArea th:field="*{doctorNote}"  class="form-control" rows="4" cols="50"></textArea>
+                                                  
+                </div>
+          <div class="form-group" >
+              <label>Completed: </label>                                  
+              <input style="font-size: 15px" type="checkbox" th:field="*{healthStatus}" th:value="true">                                                                                                                                                
+          </div>
+          <br><br>
+                  <input th:type="submit" value="Send" class="btn btn-info" style="font-size: 20px"/> &nbsp;
+               
+               <br><br>
+          </form>
+          
+        </div>
+      </div>
+                
+      
+      
+              
+        
+      
+       
+      
+    <!-- End Middle Column -->
+    </div>
+    
+    <!-- Right Column -->
+    <div class="col-sm-3" id="form">
+      
+      <br>
+      
+      
+    <!-- End Right Column -->
+    </div>
+        </div>
+        
+    </body>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popupWindow"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/material_dynamic_neutral70"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <CheckBox
+
+        android:id="@+id/cbxCheckCage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="Check Cage" />
+
+    <CheckBox
+
+        android:id="@+id/cbxFeeding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="Feeding" />
+
+    <CheckBox
+
+        android:id="@+id/cbxClean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="Clean" />
+
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:text="Send"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+</LinearLayout>

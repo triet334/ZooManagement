@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UpdateHealthtrackingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/tvHealthTrackingId3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:visibility="invisible"
+            android:text="Healthtracking ID" />
+
+        <EditText
+            android:id="@+id/tvAnimal3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:visibility="invisible"
+            android:layout_margin="10dp"
+            android:text="Animal Code" />
+
+        <EditText
+            android:id="@+id/tvCage3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="10dp"
+            android:text="Cage Code" />
+
+        <EditText
+            android:id="@+id/tvEmployeeDiscription3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="10dp"
+            android:text="Employee Discription" />
+
+
+        <EditText
+            android:id="@+id/tvEmployeeCode3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="10dp"
+            android:text="Employee Code" />
+
+
+        <EditText
+            android:id="@+id/txtDoctorNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="10dp"
+            android:text="Doctor Note" />
+
+        <CheckBox
+            android:id="@+id/ckbxStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textSize="30dp"
+            android:text="Completed" />
+
+        <Button
+            android:id="@+id/btnUpdateHealthtracking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:text="Save" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
